@@ -21,12 +21,19 @@ app.config(function($routeProvider){
 
 app.controller('MainController', function($scope, $firebase, Posts) {
 	$scope.savePost = function (post) {
-    	if (post.name && post.description && post.url){
+    	if (post.name && post.description && post.url && $scope.authData){
+            //Actually adding the posts to the Firebase
 			Posts.$add({
+                //Setting the post name
 				name: post.name,
+                //Setting the post description
 				description: post.description,
+                //Setting the post URL
 				url: post.url,
-				votes: 0
+                //Setting the post votes
+				votes: 0,
+                //Getting the current user
+				user: $scope.authData.twitter.username
 			})
 
 	        //Resetting all the values
@@ -35,7 +42,7 @@ app.controller('MainController', function($scope, $firebase, Posts) {
 			post.url = "";
 		}
 		else {
-			alert('Sorry bruh, you need all of those info to be filled!');
+			alert('Sorry bruh, make sure y0ou have all the info filled and you are signed in!');
 		}
 	}
 
