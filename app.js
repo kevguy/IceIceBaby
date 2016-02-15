@@ -20,6 +20,9 @@ app.config(function($routeProvider){
 });
 
 app.controller('MainController', function($scope, $firebase, Posts) {
+
+	$scope.posts = Posts;
+	
 	$scope.savePost = function (post) {
     	if (post.name && post.description && post.url && $scope.authData){
             //Actually adding the posts to the Firebase
@@ -56,6 +59,21 @@ app.controller('MainController', function($scope, $firebase, Posts) {
 		var postForDeletion = new Firebase('https://kevdit.firebaseio.com/' + post.$id);
         //Removing it from Firebase
         postForDeletion.remove();
+    }
+
+    $scope.addComment = function (post, comment) {
+    	if ($scope.authData) {
+    		var ref = new Firebase('https://kevdit.firebaseio.com/' + post.$id + '/comments');
+    		var sync = $firebase(ref);
+    		$scope.comments = sync.$asArray();
+    		$scope.comments.$add({
+    			user: $scope.authData.twitter.username,
+    			text: comment.text
+    		});
+    	}
+    	else {
+    		alert('You need to be logged in before doing that!');
+    	}
     }
 
     $scope.login = function() {
