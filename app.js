@@ -21,17 +21,22 @@ app.config(function($routeProvider){
 
 app.controller('MainController', function($scope, $firebase, Posts) {
 	$scope.savePost = function (post) {
-		Posts.$add({
-			name: post.name,
-			description: post.description,
-			url: post.url
-			votes: 0
-		})
+    	if (post.name && post.description && post.url){
+			Posts.$add({
+				name: post.name,
+				description: post.description,
+				url: post.url,
+				votes: 0
+			})
 
-		post.name = "";
-		post.description = "";
-		post.url = "";
-
+	        //Resetting all the values
+			post.name = "";
+			post.description = "";
+			post.url = "";
+		}
+		else {
+			alert('Sorry bruh, you need all of those info to be filled!');
+		}
 	}
 
 	$scope.addVote = function (post) {
