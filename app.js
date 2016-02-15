@@ -19,7 +19,7 @@ app.config(function($routeProvider){
 
 });
 
-app.controller('MainController', function($scope, firebase, Posts) {
+app.controller('MainController', function($scope, $firebase, Posts) {
 	$scope.savePost = function (post) {
 		Posts.$add({
 			name: post.name,
