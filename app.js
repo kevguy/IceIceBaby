@@ -22,7 +22,7 @@ app.config(function($routeProvider){
 app.controller('MainController', function($scope, $firebase, Posts) {
 
 	$scope.posts = Posts;
-	
+
 	$scope.savePost = function (post) {
     	if (post.name && post.description && post.url && $scope.authData){
             //Actually adding the posts to the Firebase
@@ -74,6 +74,11 @@ app.controller('MainController', function($scope, $firebase, Posts) {
     	else {
     		alert('You need to be logged in before doing that!');
     	}
+    }
+
+    $scope.removeComment = function(post, comment) {
+    	var commentForDeletion = new Firebase('https://kevdit.firebaseio.com/' + post.$id + '/comments/' + comment.$id);
+    	commentForDeletion.remove();
     }
 
     $scope.login = function() {
