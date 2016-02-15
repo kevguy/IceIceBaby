@@ -25,6 +25,7 @@ app.controller('MainController', function($scope, $firebase, Posts) {
 			name: post.name,
 			description: post.description,
 			url: post.url
+			votes: 0
 		})
 
 		post.name = "";
@@ -32,6 +33,11 @@ app.controller('MainController', function($scope, $firebase, Posts) {
 		post.url = "";
 
 	}
+
+	$scope.addVote = function (post) {
+        post.votes++;
+        Posts.$save(post);
+    }
 
 	$scope.deletePost = function (post) {
         //Getting the right URL
